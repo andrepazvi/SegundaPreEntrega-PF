@@ -1,17 +1,19 @@
-
-import { cartsModel } from "../models/carts.model.js";
+import { cartsModel } from '../models/carts.model.js';
 
 export class CartsManagerMongo {
-  constructor() {
-    this.model = cartsModel;
-  };
+  constructor(model) {
+    this.model = model || cartsModel;
+  }
 
   // Agregar un producto al carrito
   async addProductToCart(cartId, productId) {
     try {
-      const cart = await this.model.findById(cartId);
+      let cart = await this.model.findById(cartId);
+
       if (!cart) {
-        throw new Error("Carrito no encontrado");
+        // Si el carrito no existe, créalo.
+        cart = await this.model.create({});
+        cartId = cart._id; // Obten el nuevo ID del carrito
       }
 
       // Agregar el ID del producto al arreglo de productos del carrito
@@ -20,44 +22,38 @@ export class CartsManagerMongo {
       // Guardar los cambios en el carrito
       await cart.save();
 
-      console.log("ID del producto agregado al carrito:", productId);
-      console.log("Carrito actualizado:", cart);
+      console.log('ID del producto agregado al carrito:', productId);
+      console.log('Carrito actualizado:', cart);
 
       return cart;
     } catch (error) {
-        console.log("Error al obtener el carrito por ID:", error);
+      console.error('Error al agregar producto al carrito:', error);
       throw error;
     }
   }
 
-  
-async getCartById(cartId) {
+  async getCartById(cartId) {
     try {
-      const cart = await this.model.findById(cartId).populate("products", "p_name price"); // campos a obtener de los productos
+      const cart = await this.model
+        .findById(cartId)
+        .populate('products', 'name price'); // campos a obtener de los productos
       return cart;
     } catch (error) {
+      console.error('Error al obtener carrito por ID:', error);
       throw error;
     }
   }
 
-  // Obtener todos los carts
-    async getAll() {
-        try {
-            const carts = await this.model.find();
-            return carts;
-        } catch (error) {
-            throw error;
-        }
+  // Obtener todos los carritos
+  async getAll() {
+    try {
+      const carts = await this.model.find();
+      return carts;
+    } catch (error) {
+      console.error('Error al obtener todos los carritos:', error);
+      throw error;
     }
-
-    async save(){
-        try {
-            const cartCreated = await this.model.create({});
-            return cartCreated;
-        } catch (error) {
-            throw error;
-        }
-    };
+  }
 }
 
 export default CartsManagerMongo;

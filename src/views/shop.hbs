@@ -1,24 +1,23 @@
 <div>Shop</div>
-<p style="color:red"><strong>{{error}}</strong></p>
+<p style="color: red"><strong>{{error}}</strong></p>
 
 {{#if payload}}
     <h2>Lista de productos filtrados</h2>
     <ul>
     {{#each payload}}
-    <li>{{this.name}} - Price: {{this.price}}</li>
-    <button onclick="addToCart('{{this._id}}')">+ Cart</button>
+        <li>Nombre: {{name}} - Precio: {{price}}</li>
+        <button onclick="addToCart('{{_id}}')">Agregar al Carrito</button>
     {{/each}}
     </ul>
-{{#if hasPrevPage}}
-    <a href="{{prevLink}}">Anterior</a>
-{{/if}}
-{{page}}
-{{#if hasNextPage}}
-    <a href="{{nextLink}}">Siguiente</a>
-{{/if}}
-
+    {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Página Anterior</a>
+    {{/if}}
+    {{page}}
+    {{#if hasNextPage}}
+        <a href="{{nextLink}}">Página Siguiente</a>
+    {{/if}}
 {{else}}
-        <h2>No hay productos para mostrar</h2>
+    <h2>No hay productos disponibles</h2>
 {{/if}}
 
 <script>
@@ -32,7 +31,7 @@
       });
 
       if (response.ok) {
-        console.log('Producto agregado al carrito desde front');
+        console.log('Producto agregado al carrito desde la interfaz');
       } else {
         console.error('Error al agregar producto al carrito');
       }
@@ -41,3 +40,4 @@
     }
   };
 </script>
+

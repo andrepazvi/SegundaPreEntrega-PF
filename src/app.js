@@ -52,7 +52,7 @@ app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos
   const products = await productService.get();
-  // console.log(products);
+    console.log(products);
   // Renderizar la vista "home.hbs" con los productos como datos
   res.render("home", {products: products});}
 catch (error) {
@@ -72,27 +72,16 @@ res.render("error al obtener products");
 }});
 
 
+const operations = async ()=> {
 
-// const operations = async ()=> {
-
-//   //paginate parametros:
-//   //query o filtro: podemos filtrar la info de la consulta
-//   //limit: el numero maz de docs
-//   //page: 1
-
-//   const prodFilter = await productsModel.paginate(
-//     {p_name:{$regex:"SUNSCREEN"}},
-//     {limit: 10, page:1},
-//     {sort:{num:1}}
-//   );
-//   console.log(prodFilter);
-// }
-// operations();
-
-
-
-
-
+const prodFilter = await productsModel.paginate(
+{name:{$regex:"SUNSCREEN"}},
+{limit: 10, page:1},
+{sort:{num:1}}
+);
+console.log(prodFilter);
+ }
+operations();
 
 
 

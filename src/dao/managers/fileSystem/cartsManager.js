@@ -1,11 +1,10 @@
-import { __dirname } from "../../../utils.js";
-import path from "path";
+import path from 'path';
 import fs from 'fs';
 
 export class CartsManager {
   constructor(fileName) {
-    this.path = path.join(__dirname,`/files${fileName}`);
-    this.products = []; 
+    this.filePath = path.join(__dirname, `/files/${fileName}.json`);
+    this.products = [];
     this.loadProducts();
     this.lastId = this.getLastId();
   }
@@ -13,16 +12,25 @@ export class CartsManager {
   // Cargar productos desde el archivo
   loadProducts() {
     try {
-      const fileData = fs.readFileSync(this.filePath, 'utf-8');
-      this.products = JSON.parse(fileData);
+      if (fs.existsSync(this.filePath)) {
+        const fileData = fs.readFileSync(this.filePath, 'utf-8');
+        this.products = JSON.parse(fileData);
+      } else {
+        this.products = [];
+      }
     } catch (error) {
+      console.error('Error al cargar productos:', error);
       this.products = [];
     }
   }
 
   // Guardar productos en el archivo
   saveProducts() {
-    fs.writeFileSync(this.filePath, JSON.stringify(this.products, null, 2), 'utf-8');
+    try {
+      fs.writeFileSync(this.filePath, JSON.stringify(this.products, null, 2), 'utf-8');
+    } catch (error) {
+      console.error('Error al guardar productos:', error);
+    }
   }
 
   // Obtener el último ID utilizado
@@ -84,5 +92,4 @@ export class CartsManager {
   }
 }
 
-// module.exports = ProductManager;
 export default CartsManager;

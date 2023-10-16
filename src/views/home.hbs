@@ -54,8 +54,8 @@
     <div class="container py-5">
         <div class="text-center py-5 bg-white">
         <div class="col-lg-4 m-auto">
-            <p class="card-description font-karla" style="margin-left: 5vw;">HOME</p>
-            {{!-- <p class="karla-light">Discover the  effective and environmentally friendly products</p> --}}
+            <p class="card-description" style="margin-left: 5vw;">Inicio</p>
+
             <!-- index.html -->
             <div class="card-container" id="card-serum-container"></div>
         </div>
@@ -66,7 +66,7 @@
     <div class="message user-message">Usuario: Hola, ¿cómo estás?</div>
     <div class="message bot-message">Bot: ¡Hola! Estoy aquí para ayudarte.</div>
     </div>
-    <input id="chatbox" type="text" placeholder="Ingrese el mensaje"/>
+    <input id="chatbox" type="text" placeholder="Escribe tu mensaje aquí"/>
 <script>
     // main.js
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,26 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-  
-      // definir el template
-      const source = `
-        {{#each products}}
-          <div class="card">
-            <div class="image-container column d-flex justify-content-center">
-              <a href="serum-item.html?id={{this._id}}">
-                <div class="d-flex flex-column" style="position: absolute; top: 2rem; right: 5px;">
-                  {{!-- The #each block helper is used to iterate over 'this.logos' array --}}
-                </div>
-              </a>
-            </div>
-            <div class="card-body d-flex flex-column align-items-center">
-              <p class="h2 text-decoration-none text-dark card-text">{{this.p_name}}</p>
-              <p class="card-text">{{this.price}}</p>
-            </div>
-          </div>
-        {{/each}}
-      `;
-  
+
       // Compilar el template de Handlebars
       const template = Handlebars.compile(source);
   
@@ -107,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cardContainer.innerHTML = html;
     })
     .catch(error => {
-      console.log('Error fetching data from MongoDB', error);
+      console.log('Error al obtener datos de MongoDB', error);
     });
 });
 </script>

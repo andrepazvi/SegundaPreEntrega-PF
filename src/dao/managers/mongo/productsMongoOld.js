@@ -1,13 +1,12 @@
-// import mongoose from "mongoose";
 import { productsModel } from "../models/products.model.js";
 
-export class ProductMongo{
-    constructor(){
+export class ProductMongo {
+    constructor() {
         this.model = productsModel;
     };
-    
-    //get products
-    async get(){
+
+    // Obtener productos
+    async get() {
         try {
             const products = await this.model.find().lean();
             return products;
@@ -16,8 +15,9 @@ export class ProductMongo{
             throw new Error("Hubo un error al obtener los productos");
         }
     }
-    //get products
-    async create(productInfo){
+
+    // Crear un producto
+    async create(productInfo) {
         try {
             const productCreated = await this.model.create(productInfo);
             return productCreated;
@@ -26,45 +26,43 @@ export class ProductMongo{
             throw new Error("Hubo un error al crear el producto");
         }
     }
-    
-    
-    async getById(id){
-        //devuelve el producto que cumple con el id recibido
-        try{
+
+    // Obtener un producto por ID
+    async getById(id) {
+        try {
             const product = await this.model.findById(id);
             return product;
-        }catch(error){
+        } catch (error) {
             console.log(error.message);
-            // throw error
             throw new Error("Hubo un error al obtener el producto");
         }
     }
-    //delete products
+
+    // Eliminar un producto por ID
     async delete(productId) {
         try {
-          const productToDelete = await this.model.findById(productId);
-          if (!productToDelete) {
-            throw new Error("Producto no encontrado");
-          }
-          const productDeleted = await this.model.deleteOne({ _id: productId });
-          console.log(`Se ha eliminado el producto ${productId}`);
-          return productToDelete;
+            const productToDelete = await this.model.findById(productId);
+            if (!productToDelete) {
+                throw new Error("Producto no encontrado");
+            }
+            const productDeleted = await this.model.deleteOne({ _id: productId });
+            console.log(`Se ha eliminado el producto ${productId}`);
+            return productToDelete;
         } catch (error) {
-          console.log(error.message);
-          throw new Error("Hubo un error al eliminar el producto");
+            console.log(error.message);
+            throw new Error("Hubo un error al eliminar el producto");
         }
-      }
-      
-      //delete all
-      async deleteAll() {
-        try {
-          const deletedProducts = await this.model.deleteMany({});
-          console.log(`Se han eliminado ${deletedProducts.deletedCount} productos`);
-          return deletedProducts;
-        } catch (error) {
-          console.log(error.message);
-          throw new Error("Hubo un error al eliminar todos los productos");
-        }
-      }
+    }
 
+    // Eliminar todos los productos
+    async deleteAll() {
+        try {
+            const deletedProducts = await this.model.deleteMany({});
+            console.log(`Se han eliminado ${deletedProducts.deletedCount} productos`);
+            return deletedProducts;
+        } catch (error) {
+            console.log(error.message);
+            throw new Error("Hubo un error al eliminar todos los productos");
+        }
+    }
 }
