@@ -4,10 +4,13 @@
 {{#if payload}}
     <h2>Lista de productos filtrados</h2>
     <ul>
-    {{#each payload}}
-        <li>Nombre: {{name}} - Precio: {{price}}</li>
-        <button onclick="addToCart('{{_id}}')">Agregar al Carrito</button>
-    {{/each}}
+        {{#each payload}}
+            <li>
+                Nombre: {{name}} - Precio: {{price}}
+                <button onclick="addToCart('{{_id}}')">Agregar al Carrito</button>
+                <button onclick="showDetails('{{_id}}')">Ver Detalle</button>
+            </li>
+        {{/each}}
     </ul>
     {{#if hasPrevPage}}
         <a href="{{prevLink}}">Página Anterior</a>
@@ -31,13 +34,63 @@
       });
 
       if (response.ok) {
-        console.log('Producto agregado al carrito desde la interfaz');
+        Swal.fire({
+          title: 'Producto Agregado',
+          text: 'El producto se ha agregado al carrito correctamente.',
+          icon: 'success',
+        });
       } else {
-        console.error('Error al agregar producto al carrito');
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un error al agregar el producto al carrito.',
+          icon: 'error',
+        });
       }
     } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un error al realizar la operación.',
+        icon: 'error',
+      });
       console.error('Error:', error);
     }
   };
+
+  const showDetails = (productId) => {
+  try {
+    // Realiza una solicitud GET para obtener los detalles del producto
+    fetch(`/products/${productId}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Error al obtener detalles del producto');
+        }
+      })
+      .then((productDetails) => {
+        Swal.fire({
+          title: 'Detalles del Producto',
+          html: `<p>Nombre: ${productDetails.name}</p><p>Precio: ${productDetails.price}</p><p>Descripción: ${productDetails.description}</p>`,
+          icon: 'info',
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.message,
+          icon: 'error',
+        });
+      });
+  } catch (error) {
+    Swal.fire({
+      title: 'Error',
+      text: error.message,
+      icon: 'error',
+    });
+    console.error('Error:', error);
+  }
+};
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Formulario para crear productos</title>
 </head>
 <body>
     <h1>Formulario para crear productos</h1>
 
     <form method="post" action="/fileSystem" enctype="multipart/form-data">
-
-        <input placeholder="nombre producto" name="name"/>
-
-        <br/><br/>
-
-        <input placeholder="precio producto" name="price"/>
+        <label for="name">Nombre del producto:</label>
+        <input type="text" id="name" name="name" required />
 
         <br/><br/>
 
-        <input type="file" name="fileImage"/>
+        <label for="price">Precio del producto:</label>
+        <input type="number" id="price" name="price" required />
+
+        <br/><br/>
+
+        <label for="description">Descripción del producto:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <br/><br/>
+
+        <label for="fileImage">Imagen del producto:</label>
+        <input type="file" id="fileImage" name="fileImage" accept="image/*" required />
 
         <br/><br/>
 
         <button type="submit">Crear producto</button>
-
     </form>
 </body>
 </html>

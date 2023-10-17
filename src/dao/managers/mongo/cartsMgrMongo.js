@@ -36,7 +36,7 @@ export class CartsManagerMongo {
     try {
       const cart = await this.model
         .findById(cartId)
-        .populate('products', 'name price'); // campos a obtener de los productos
+        .populate('products', 'name price description', ); // campos a obtener de los productos
       return cart;
     } catch (error) {
       console.error('Error al obtener carrito por ID:', error);
